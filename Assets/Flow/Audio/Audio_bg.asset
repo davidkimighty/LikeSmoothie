@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0496431e5171a9e4592f6b77dcc2b71d, type: 3}
+  m_Name: Audio_bg
+  m_EditorClassIdentifier: 
+  Clip: {fileID: 8300000, guid: 692270f41c9fb498497b8c9084e31774, type: 3}
+  AudioMixerGroup: {fileID: -5494917200931391522, guid: 2dd73a0012e333a46b0c65e64a4ca99d,
+    type: 2}
+  Volume: 0.3
+  Pitch: 1
+  SpatialBlend: 1
