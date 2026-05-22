@@ -108,9 +108,9 @@ namespace Gallery
 
                 List<Task> moveTask = new List<Task>
                 {
-                    //transform.LerpPositionAsync(targetAnchor.position, preset.PositionDuration, _cts.Token, preset.PositionCurve),
-                    //transform.LerpRotationAsync(targetAnchor.rotation, preset.RotationDuration, _cts.Token, preset.RotationCurve),
-                    //transform.LerpScaleAsync(targetAnchor.localScale, preset.ScaleDuration, _cts.Token, preset.ScaleCurve)
+                    LerpPositionAsync(targetAnchor.position, preset.PositionDuration, _cts.Token, preset.PositionCurve),
+                    LerpRotationAsync(targetAnchor.rotation, preset.RotationDuration, _cts.Token, preset.RotationCurve),
+                    LerpScaleAsync(targetAnchor.localScale, preset.ScaleDuration, _cts.Token, preset.ScaleCurve)
                 };
                 await Task.WhenAll(moveTask);
 
@@ -172,6 +172,54 @@ namespace Gallery
 
             //Vector3 GetRandomPosition() => transform.position + UnityEngine.Random.insideUnitSphere * 0.1f;
             Quaternion GetRandomRoation() => UnityEngine.Random.rotationUniform;
+        }
+
+        private async Task LerpPositionAsync(Vector3 targetPosition, float duration, CancellationToken token, AnimationCurve curve = null)
+        {
+            Vector3 startPosition = transform.position;
+            float time = 0;
+            while (time < duration)
+            {
+                if (token.IsCancellationRequested) return;
+                time += Time.deltaTime;
+                float t = time / duration;
+                if (curve != null) t = curve.Evaluate(t);
+                transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+                await Task.Yield();
+            }
+            transform.position = targetPosition;
+        }
+
+        private async Task LerpRotationAsync(Quaternion targetRotation, float duration, CancellationToken token, AnimationCurve curve = null)
+        {
+            Quaternion startRotation = transform.rotation;
+            float time = 0;
+            while (time < duration)
+            {
+                if (token.IsCancellationRequested) return;
+                time += Time.deltaTime;
+                float t = time / duration;
+                if (curve != null) t = curve.Evaluate(t);
+                transform.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
+                await Task.Yield();
+            }
+            transform.rotation = targetRotation;
+        }
+
+        private async Task LerpScaleAsync(Vector3 targetScale, float duration, CancellationToken token, AnimationCurve curve = null)
+        {
+            Vector3 startScale = transform.localScale;
+            float time = 0;
+            while (time < duration)
+            {
+                if (token.IsCancellationRequested) return;
+                time += Time.deltaTime;
+                float t = time / duration;
+                if (curve != null) t = curve.Evaluate(t);
+                transform.localScale = Vector3.Lerp(startScale, targetScale, t);
+                await Task.Yield();
+            }
+            transform.localScale = targetScale;
         }
     }
 }
